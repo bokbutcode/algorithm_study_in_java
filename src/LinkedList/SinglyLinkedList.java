@@ -1,7 +1,8 @@
 package LinkedList;
 
-class SinglyLinkedList{
+class SinglyLinkedList {
     /**
+     * getNode() : 파라미터로 받은 item과 동일한 노드 조회
      * append() : 단방향 링크드리스트에 데이터를 삽입
      * delete() : 단방향 링크드리스트에 데이터를 삭제
      * retrieve() : 단방향 링크드리스트에 있는 데이터를 모두 출력
@@ -13,24 +14,20 @@ class SinglyLinkedList{
      * partitionPointTwo() : 포인트 2개를 이용한 기준값으로 분류하기
      */
 
-    static class Node{
-        private int data;
-        private Node next = null;
-        public Node(int data){
-            this.data = data;
-        }
-    }
-
     private Node head;
 
-    public Node getNode(int item){
+    public Node getHead(){
+        return this.head;
+    }
+
+    public Node getNode(int item) {
         Node n = this.head;
-        if(n.data == item){
+        if (n.data == item) {
             return n;
-        }else{
-            while(n.next != null){
+        } else {
+            while (n.next != null) {
                 n = n.next;
-                if(n.data == item){
+                if (n.data == item) {
                     break;
                 }
             }
@@ -38,50 +35,50 @@ class SinglyLinkedList{
         return n;
     }
 
-    public void append(int item){
-        if(this.head == null){
+    public void append(int item) {
+        if (this.head == null) {
             this.head = new Node(item);
-        }else{
+        } else {
             Node n = this.head;
-            while(n.next != null){
+            while (n.next != null) {
                 n = n.next;
             }
             n.next = new Node(item);
         }
     }
 
-    public void delete(int item){
+    public void delete(int item) {
         Node n = this.head;
-        if(n.data == item){
+        if (n.data == item) {
             this.head = n.next;
-        }else{
-            while(n.next != null){
-                if(n.next.data == item){
+        } else {
+            while (n.next != null) {
+                if (n.next.data == item) {
                     n.next = n.next.next;
-                }else{
+                } else {
                     n = n.next;
                 }
             }
         }
     }
 
-    public void retrieve(){
+    public void retrieve() {
         Node n = this.head;
-        while(n.next != null){
+        while (n.next != null) {
             System.out.print(n.data + " -> ");
             n = n.next;
         }
         System.out.println(n.data);
     }
 
-    void removeDups(){
+    void removeDups() {
         Node n = this.head;
-        while(n != null && n.next != null){
+        while (n != null && n.next != null) {
             Node r = n;
-            while(r.next != null){
-                if(n.data == r.next.data){
+            while (r.next != null) {
+                if (n.data == r.next.data) {
                     r.next = r.next.next;
-                }else{
+                } else {
                     r = r.next;
                 }
             }
@@ -90,28 +87,28 @@ class SinglyLinkedList{
     }
 
     Node kThToLast(Node n, int k, Reference r) {
-        if(n == null){
+        if (n == null) {
             return null;
         }
 
         Node found = kThToLast(n.next, k, r);
         r.count++;
-        if(r.count == k){
+        if (r.count == k) {
             return n;
         }
         return found;
     }
 
-    Node kThToLastPoint(Node n, int k){
+    Node kThToLastPoint(Node n, int k) {
         Node p1 = this.head;
         Node p2 = this.head;
 
-        for(int i = 0; i < k; i++){
-            if(p1 == null) return null;
+        for (int i = 0; i < k; i++) {
+            if (p1 == null) return null;
             p1 = p1.next;
         }
 
-        while(p1 != null){
+        while (p1 != null) {
             p1 = p1.next;
             p2 = p2.next;
         }
@@ -119,8 +116,8 @@ class SinglyLinkedList{
         return p2;
     }
 
-    boolean deleteMidNode(Node n){
-        if(n == null || n.next == null){
+    boolean deleteMidNode(Node n) {
+        if (n == null || n.next == null) {
             return false;
         }
 
@@ -130,51 +127,51 @@ class SinglyLinkedList{
         return true;
     }
 
-    Node partitionPointFour(Node n, int x){
+    Node partitionPointFour(Node n, int x) {
         Node s1 = null;
         Node e1 = null;
         Node s2 = null;
         Node e2 = null;
 
-        while(n != null){
+        while (n != null) {
             Node next = n.next;
             n.next = null;
-            if(n.data < x){
-                if(s1 == null){
+            if (n.data < x) {
+                if (s1 == null) {
                     s1 = n;
                     e1 = s1;
-                }else{
+                } else {
                     e1.next = n;
                     e1 = n;
                 }
-            }else{
-                if(s2 == null){
+            } else {
+                if (s2 == null) {
                     s2 = n;
                     e2 = s2;
-                }else{
+                } else {
                     e2.next = n;
                     e2 = n;
                 }
             }
             n = next;
         }
-        if(s1 == null){
+        if (s1 == null) {
             return s2;
         }
         e1.next = s2;
         return s1;
     }
 
-    Node partitionPointTwo(Node n, int x){
+    Node partitionPointTwo(Node n, int x) {
         Node header = n;
         Node tail = n;
 
-        while(n != null){
+        while (n != null) {
             Node next = n.next;
-            if(n.data < x){
+            if (n.data < x) {
                 n.next = header;
                 header = n;
-            }else{
+            } else {
                 tail.next = n;
                 tail = n;
             }
@@ -184,47 +181,81 @@ class SinglyLinkedList{
         return header;
     }
 
-    public static void main(String[] args) {
-        SinglyLinkedList linkedList = new SinglyLinkedList();
-        linkedList.append(7);
-        linkedList.append(2);
-        linkedList.append(8);
-        linkedList.append(5);
-        linkedList.append(3);
-        linkedList.append(4);
-        linkedList.retrieve();
-//        linkedList.removeDups();
-        linkedList.delete(1);
-        linkedList.retrieve();
-        int k = 3;
-        Reference r = new Reference();
-        Node found = linkedList.kThToLast(linkedList.head,k,r);
-        System.out.println(found.data);
-        found = linkedList.kThToLastPoint(linkedList.head,k);
-        System.out.println(found.data);
-        linkedList.deleteMidNode(linkedList.getNode(15));
-        linkedList.retrieve();
-
-        Node fN = linkedList.partitionPointFour(linkedList.head, 5);
-        while(fN.next != null){
-            System.out.print(fN.data + " -> ");
-            fN = fN.next;
+    public static Node sumLists(Node l1, Node l2, int carry) {
+        if (l1 == null && l2 == null && carry == 0) {
+            return null;
         }
+        Node result = new Node();
+        int value = carry;
 
-        SinglyLinkedList sLinkedList = new SinglyLinkedList();
-        sLinkedList.append(7);
-        sLinkedList.append(2);
-        sLinkedList.append(8);
-        sLinkedList.append(5);
-        sLinkedList.append(3);
-        sLinkedList.append(4);
-
-        System.out.println(fN.data);
-        Node tN = linkedList.partitionPointTwo(sLinkedList.head, 5);
-        while(tN.next != null){
-            System.out.print(tN.data + " -> ");
-            tN = tN.next;
+        if (l1 != null) {
+            value += l1.data;
         }
-        System.out.println(tN.data);
+        if (l2 != null) {
+            value += l2.data;
+        }
+        result.data = value % 10;
+
+        if (l1 != null || l2 != null) {
+            Node next = sumLists(l1 == null ? null : l1.next,
+                    l2 == null ? null : l2.next,
+                    value >= 10 ? 1 : 0);
+            result.next = next;
+        }
+        return result;
+    }
+
+    private static int getListLength(Node l){
+        int total = 0;
+        while(l != null){
+            total++;
+            l = l.next;
+        }
+        return total;
+    }
+    private static Node insertBefore(Node node, int data){
+        Node before = new Node(data);
+        if(node != null){
+            before.next = node;
+        }
+        return before;
+    }
+
+    private static Node LPadList(Node l, int length){
+        Node head = l;
+        for(int i = 0; i < length; i++){
+            head = insertBefore(head,0);
+        }
+        return head;
+    }
+    public static Node reversSumList(Node l1, Node l2){
+        int len1 = getListLength(l1);
+        int len2 = getListLength(l2);
+
+        if(len1 < len2){
+            l1 = LPadList(l1, len2 - len1);
+        }else{
+            l2 = LPadList(l2, len1 - len2);
+        }
+        Storage storage = addLists(l1, l2);
+        if(storage.getCarry() == 0){
+            return storage.getResult();
+        }else{
+            storage.setResult(insertBefore(storage.getResult(), storage.getCarry()));
+        }
+        return storage.getResult();
+    }
+
+    private static Storage addLists(Node l1, Node l2){
+        if(l1 == null && l2 == null){
+            Storage storage = new Storage();
+            return storage;
+        }
+        Storage storage = addLists(l1.next, l2.next);
+        int value = storage.getCarry() + l1.data + l2.data;
+        int data = value % 10;
+        storage.setResult(insertBefore(storage.getResult(), data));
+        storage.setCarry(value / 10);
+        return storage;
     }
 }
