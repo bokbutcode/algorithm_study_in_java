@@ -87,6 +87,25 @@ public class SinglyLinkedListMain{
             result = result.next;
         }
         System.out.println(result.data);
+
+         /*
+            문제 : 회문
+
+            I/O :
+                    m -> a -> d -> a -> m
+                    true
+         */
+        SinglyLinkedList palindrome = new SinglyLinkedList();
+        palindrome.append('m');
+        palindrome.append('a');
+        palindrome.append('d');
+        palindrome.append('a');
+        palindrome.append('m');
+        palindrome.retrieve();
+        System.out.println(palindrome.isPalindrome(palindrome.getHead()));
+        System.out.println(palindrome.isPalidromePoint(palindrome.getHead()));
+        System.out.println(palindrome.isPalidromeRecursive(palindrome.getHead()));
     }
 }
+
 

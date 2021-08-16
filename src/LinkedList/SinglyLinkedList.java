@@ -1,5 +1,7 @@
 package LinkedList;
 
+import stack.Stack;
+
 class SinglyLinkedList {
     /**
      * getNode() : 파라미터로 받은 item과 동일한 노드 조회
@@ -256,6 +258,86 @@ class SinglyLinkedList {
         int data = value % 10;
         storage.setResult(insertBefore(storage.getResult(), data));
         storage.setCarry(value / 10);
+        return storage;
+    }
+
+    public static boolean isPalindrome(Node head){
+        Node reversed = reversAndClone(head);
+        return isEqual(head, reversed);
+    }
+
+    private static Node reversAndClone(Node node){
+        Node header = null;
+        while (node != null){
+            Node n = new Node(node.data);
+            n.next = header;
+            header = n;
+            node = node.next;
+        }
+        return header;
+    }
+
+    private static boolean isEqual(Node one, Node two){
+        while(one != null && two != null){
+            if(one.data != two.data){
+                return false;
+            }
+            one = one.next;
+            two = two.next;
+        }
+        return one == null && two == null ? true : false;
+    }
+
+    public static boolean isPalidromePoint(Node head){
+        Node fastPoint = head;
+        Node slowPoint = head;
+
+        Stack<Character> stack = new Stack<>();
+
+        while(fastPoint != null && fastPoint.next != null){
+            stack.push((char) slowPoint.data);
+            slowPoint = slowPoint.next;
+            fastPoint = fastPoint.next.next;
+        }
+
+        if(fastPoint != null){
+            slowPoint = slowPoint.next;
+        }
+
+        while(slowPoint != null){
+            char c = stack.pop();
+
+            if(slowPoint.data != c){
+                return false;
+            }
+            slowPoint = slowPoint.next;
+        }
+        return true;
+    }
+
+    public static boolean isPalidromeRecursive(Node head){
+        int nodeLength = getListLength(head);
+        Storage storage = palidromeRecursive(head, nodeLength);
+        return storage.getResultBoolean();
+    }
+
+    private static Storage palidromeRecursive(Node head, int nodeLength) {
+        if(head == null || nodeLength <= 0){
+            return new Storage(head, true);
+        }else if(nodeLength == 1){
+            return new Storage(head.next, true);
+        }
+
+        Storage storage = palidromeRecursive(head.next, nodeLength - 2);
+
+        if(!storage.getResultBoolean() || storage.getNode() == null){
+            return storage;
+        }
+
+        storage.setResultBoolean(head.data == storage.getNode().data);
+
+        storage.setNode(storage.getNode().next);
+
         return storage;
     }
 }
